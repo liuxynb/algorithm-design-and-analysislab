@@ -7,7 +7,7 @@ int tre[MAXN], start[MAXN], out[MAXN];
 int vec[MAXN], next[MAXN], head[MAXN];
 int exist[MAXN];     //储存是否有苹果。
 
-void Add_edge(int x, int y)//加边
+void Add_edge(int x, int y)//加双向边，链式前向星
 {
 	vec[++cnt] = x; next[cnt] = head[y]; head[y] = cnt;
 	vec[++cnt] = y; next[cnt] = head[x]; head[x] = cnt;
@@ -80,6 +80,5 @@ int main(void)
 			Modify(start[x], 1);
 			exist[start[x]] = 1;
 		}
-
 	}
 }
