@@ -20,7 +20,7 @@ void rmq_init(int n);
 int rmq(int x, int y);
 //找最近公共祖先
 int lca(int a, int b);
-
+//主函数
 int main(void)
 {
 	int n, q;

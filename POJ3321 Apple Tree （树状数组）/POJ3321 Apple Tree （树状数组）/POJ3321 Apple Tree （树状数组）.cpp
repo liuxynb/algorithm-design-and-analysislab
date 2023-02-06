@@ -1,16 +1,17 @@
-﻿//树状数组（BIT）
+﻿//树状数组（BIT）poj3321
 //2022.11.23
 #include<stdio.h>
 #define MAXN 1000001
 int n, x, y, cnt; //cnt用于计数。
-int tre[MAXN], start[MAXN], out[MAXN];
-int vec[MAXN], next[MAXN], head[MAXN];
+int tre[MAXN];    //tre即为树状数组
+int start[MAXN], out[MAXN];
+int edge[MAXN], next[MAXN], head[MAXN];
 int exist[MAXN];     //储存是否有苹果。
 
 void Add_edge(int x, int y)//加双向边，链式前向星
 {
-	vec[++cnt] = x; next[cnt] = head[y]; head[y] = cnt;
-	vec[++cnt] = y; next[cnt] = head[x]; head[x] = cnt;
+	edge[++cnt] = x; next[cnt] = head[y]; head[y] = cnt;
+	edge[++cnt] = y; next[cnt] = head[x]; head[x] = cnt;
 }
 int Lowbit(int x)// BIT中重要的概念
 {
@@ -38,14 +39,14 @@ int Get_branch(int x, int y)
 {
 	return Get_sum(y) - Get_sum(x - 1);
 }
-void Dfn(int now, int last) //类似先序遍历
+void Dfs(int now, int last) //类似先序遍历
 {
-	start[now] = ++cnt; //cnt是时间戳，dfn数组里存的是dfn序
+	start[now] = ++cnt; //cnt是时间戳，dfs数组里存的是dfs序
 	for (int i = head[now]; i != 0; i = next[i])
 	{
-		if (vec[i] != last)Dfn(vec[i], now);
+		if (edge[i] != last)Dfs(edge[i], now);
 	}
-	out[now] = cnt; //out数组存的是start的子树在dfn序中对应的序列的末尾的下标！，以求树枝上的果数。
+	out[now] = cnt; //out数组存的是start的子树在dfs序中对应的序列的末尾的下标，以求树枝上的果数。
 }
 int main(void)
 {
@@ -56,7 +57,7 @@ int main(void)
 		Add_edge(x, y);
 	}
 	cnt = 0;//重置计数器
-	Dfn(1, -1);
+	Dfs(1, -1);
 	for (int i = 1; i <= n; i++)
 	{
 		Modify(i, 1);
